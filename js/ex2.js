@@ -1,20 +1,60 @@
-let userInput = prompt("Enter a number between 0 and 100:");
- 
-try {
-  let trimmedInput = userInput === null ? "" : userInput.trim();
-  let num = Number(trimmedInput);
- 
-  if (
-    trimmedInput === "" ||
-    isNaN(num) ||
-    !Number.isInteger(num) ||
-    num < 0 ||
-    num > 100
-  ) {
-    throw `Sorry, ${userInput} is not a valid entry.`;
+const countryList = [
+  "Afghanistan",
+  "Albania",
+  "Algeria",
+  "Andorra",
+  "Angola",
+  "Anguilla",
+  "Antarctica",
+  "Antigua-and-Barbuda",
+  "Argentina",
+  "Armenia",
+  "Aruba",
+  "Australia",
+  "Autria",
+  "Azerbaïjan"
+];
+
+const countryInput = document.getElementById("country");
+const suggestions = document.getElementById("suggestions");
+
+const clearSuggestions = () => {
+  suggestions.innerHTML = "";
+  suggestions.style.display = "none";
+};
+
+const showSuggestions = matches => {
+  suggestions.innerHTML = "";
+
+  for (const country of matches) {
+    const suggestion = document.createElement("div");
+    suggestion.classList.add("suggestion");
+    suggestion.textContent = country;
+    suggestion.addEventListener("click", () => {
+      countryInput.value = country;
+      clearSuggestions();
+    });
+    suggestions.appendChild(suggestion);
   }
- 
-  console.log(`Thank you! You entered ${num}, a valid number.`);
-} catch (error) {
-  console.log(error);
-}
+
+  suggestions.style.display = "block";
+};
+
+countryInput.addEventListener("input", () => {
+  const typed = countryInput.value.trim().toLowerCase();
+
+  if (typed === "") {
+    clearSuggestions();
+    return;
+  }
+
+  const matches = countryList.filter(country => country.toLowerCase().startsWith(typed));
+
+  if (matches.length === 0) {
+    clearSuggestions();
+  } else {
+    showSuggestions(matches);
+  }
+});
+
+clearSuggestions();

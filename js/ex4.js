@@ -1,16 +1,51 @@
-let target = Math.floor(Math.random() * 100) + 1;
-let attempts = 0;
-let guess;
-
-do {
-  guess = Number(prompt("Guess a number between 1 and 100:"));
-  attempts++;
-
-  if (guess < target) {
-    console.log("Too low, guess again");
-  } else if (guess > target) {
-    console.log("Too high, guess again");
-  } else {
-    console.log(`Correct! It took you ${attempts} attempts to guess the correct number.`);
+const studentList = [
+  {
+    firstName: "Allan",
+    lastName: "Able",
+    scores: [95, 85, 92, 98]
+  },
+  {
+    firstName: "Amy",
+    lastName: "Alexander",
+    scores: [80, 88, 100]
+  },
+  {
+    firstName: "Betty",
+    lastName: "Barns",
+    scores: [70, 80, 90, 100]
+  },
+  {
+    firstName: "Bob",
+    lastName: "Bones",
+    scores: [75, 85, 95, 85]
+  },
+  {
+    firstName: "Cindy",
+    lastName: "Chase",
+    scores: [95, 90, 92, 98]
+  },
+  {
+    firstName: "Charles",
+    lastName: "Chips",
+    scores: [88, 99, 90]
   }
-} while (guess !== target);
+];
+
+for (const student of studentList) {
+  for (let i = 0; i < student.scores.length; i++) {
+    student.scores[i] += 5;
+  }
+}
+
+for (const student of studentList) {
+  let sum = 0;
+  for (const score of student.scores) {
+    sum += score;
+  }
+  student.scores.push(sum / student.scores.length);
+}
+
+for (const student of studentList) {
+  console.log(`Full name (last, first): ${student.lastName}, ${student.firstName}`);
+  console.log(`Updated scores are: ${student.scores}`);
+}
