@@ -1,60 +1,60 @@
-const countryList = [
-  "Afghanistan",
-  "Albania",
-  "Algeria",
-  "Andorra",
-  "Angola",
-  "Anguilla",
-  "Antarctica",
-  "Antigua-and-Barbuda",
-  "Argentina",
-  "Armenia",
-  "Aruba",
-  "Australia",
-  "Autria",
-  "Azerbaïjan"
-];
+const loginInput = document.getElementById("login");
+const lookupButton = document.getElementById("lookup");
+const picture = document.getElementById("picture");
+const info = document.getElementById("info");
 
-const countryInput = document.getElementById("country");
-const suggestions = document.getElementById("suggestions");
-
-const clearSuggestions = () => {
-  suggestions.innerHTML = "";
-  suggestions.style.display = "none";
+const clearResults = () => {
+  picture.innerHTML = "";
+  info.innerHTML = "";
 };
 
-const showSuggestions = matches => {
-  suggestions.innerHTML = "";
+const addRow = (table, label, value) => {
+  const row = document.createElement("tr");
 
-  for (const country of matches) {
-    const suggestion = document.createElement("div");
-    suggestion.classList.add("suggestion");
-    suggestion.textContent = country;
-    suggestion.addEventListener("click", () => {
-      countryInput.value = country;
-      clearSuggestions();
-    });
-    suggestions.appendChild(suggestion);
-  }
+  const labelCell = document.createElement("td");
+  labelCell.textContent = label;
 
-  suggestions.style.display = "block";
+  const valueCell = document.createElement("td");
+  valueCell.textContent = value;
+
+  row.appendChild(labelCell);
+  row.appendChild(valueCell);
+  table.appendChild(row);
 };
 
-countryInput.addEventListener("input", () => {
-  const typed = countryInput.value.trim().toLowerCase();
+const showUser = user => {
+  clearResults();
 
-  if (typed === "") {
-    clearSuggestions();
+  const image = document.createElement("img");
+  image.src = user.avatar_url;
+  image.alt = `${user.login} profile picture`;
+  image.width = 190;
+  picture.appendChild(image);
+
+  const table = document.createElement("table");
+  addRow(table, "Name", `${user.name}`);
+  addRow(table, "Blog", `${user.blog}`);
+  addRow(table, "Created", `${user.created_at}`);
+  info.appendChild(table);
+};
+
+lookupButton.addEventListener("click", () => {
+  const login = loginInput.value.trim();
+
+  if (login === "") {
     return;
   }
 
-  const matches = countryList.filter(country => country.toLowerCase().startsWith(typed));
-
-  if (matches.length === 0) {
-    clearSuggestions();
-  } else {
-    showSuggestions(matches);
-  }
+  fetch(`https://api.github.com/users/${encodeURIComponent(login)}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(showUser)
+    .catch(error => {
+      clearResults();
+      console.error(error.message);
+    });
 });
-
-clearSuggestions();

@@ -3,13 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Exercise 4 - Extra Credit and Missing Score</title>
+  <title>Exercise 4 - FormData Key/Value Pairs</title>
   <link rel="stylesheet" href="../css/style.css">
   <script src="../js/ex4.js" defer></script>
 </head>
 <body>
-  <h1>Exercise 4: Extra Credit and Missing Score</h1>
-  <p>Open the browser console (F12) to see the output.</p>
-  <a href="../index.html">Back to Index</a>
+  <h2>Sample Form</h2>
+  <form id="sampleForm">
+    <p>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name">
+    </p>
+    <p>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" placeholder="name@domain">
+    </p>
+    <p>
+      Payment Type:<br>
+      <input type="radio" id="cash" name="payment" value="cash">
+      <label for="cash">Cash</label><br>
+      <input type="radio" id="credit" name="payment" value="credit">
+      <label for="credit">Credit Card</label><br>
+      <input type="radio" id="gpay" name="payment" value="gpay">
+      <label for="gpay">Google Pay</label><br>
+      <input type="radio" id="apay" name="payment" value="apay">
+      <label for="apay">Apple Pay</label>
+    </p>
+    <p>
+      <input type="checkbox" id="promotion" name="promotion">
+      <label for="promotion">Sign me up for special promotions</label>
+    </p>
+    <p>
+      <label for="location">Preferred Location:</label>
+      <select id="location" name="location">
+        <option value="la">Los Angeles</option>
+        <option value="oc">Orange County</option>
+        <option value="riv">Riverside</option>
+        <option value="sd">San Diego</option>
+      </select>
+    </p>
+    <p>
+      <button type="submit">Submit</button>
+      <button type="reset">Cancel</button>
+    </p>
+  </form>
+  <div id="output"></div>
+  <p><a href="../index.html">Back to Index</a></p>
 </body>
 </html>

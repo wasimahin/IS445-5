@@ -1,51 +1,39 @@
-const studentList = [
-  {
-    firstName: "Allan",
-    lastName: "Able",
-    scores: [95, 85, 92, 98]
-  },
-  {
-    firstName: "Amy",
-    lastName: "Alexander",
-    scores: [80, 88, 100]
-  },
-  {
-    firstName: "Betty",
-    lastName: "Barns",
-    scores: [70, 80, 90, 100]
-  },
-  {
-    firstName: "Bob",
-    lastName: "Bones",
-    scores: [75, 85, 95, 85]
-  },
-  {
-    firstName: "Cindy",
-    lastName: "Chase",
-    scores: [95, 90, 92, 98]
-  },
-  {
-    firstName: "Charles",
-    lastName: "Chips",
-    scores: [88, 99, 90]
-  }
-];
+const form = document.getElementById("sampleForm");
+const output = document.getElementById("output");
 
-for (const student of studentList) {
-  for (let i = 0; i < student.scores.length; i++) {
-    student.scores[i] += 5;
-  }
-}
+const makeCell = (tag, text) => {
+  const cell = document.createElement(tag);
+  cell.textContent = text;
+  return cell;
+};
 
-for (const student of studentList) {
-  let sum = 0;
-  for (const score of student.scores) {
-    sum += score;
-  }
-  student.scores.push(sum / student.scores.length);
-}
+form.addEventListener("submit", event => {
+  event.preventDefault();
 
-for (const student of studentList) {
-  console.log(`Full name (last, first): ${student.lastName}, ${student.firstName}`);
-  console.log(`Updated scores are: ${student.scores}`);
-}
+  const formData = new FormData(form);
+
+  const heading = document.createElement("h3");
+  heading.textContent = "Form Data Entered";
+
+  const table = document.createElement("table");
+
+  const headerRow = document.createElement("tr");
+  headerRow.appendChild(makeCell("th", "Key"));
+  headerRow.appendChild(makeCell("th", "Value"));
+  table.appendChild(headerRow);
+
+  for (const [key, value] of formData) {
+    const row = document.createElement("tr");
+    row.appendChild(makeCell("td", key));
+    row.appendChild(makeCell("td", value));
+    table.appendChild(row);
+  }
+
+  output.innerHTML = "";
+  output.appendChild(heading);
+  output.appendChild(table);
+});
+
+form.addEventListener("reset", () => {
+  output.innerHTML = "";
+});
